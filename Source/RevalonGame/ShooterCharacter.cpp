@@ -32,16 +32,26 @@ void AShooterCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCo
 	PlayerInputComponent->BindAxis(TEXT("MoveForward"), this, &AShooterCharacter::MoveForward);
 	PlayerInputComponent->BindAxis(TEXT("MoveRight"), this, &AShooterCharacter::MoveRight);
 	PlayerInputComponent->BindAxis(TEXT("LookUp"), this, &APawn::AddControllerPitchInput);
+	PlayerInputComponent->BindAxis(TEXT("LookUpRate"), this, &AShooterCharacter::LookUpRate);
+	PlayerInputComponent->BindAxis(TEXT("LookRightRate"), this, &AShooterCharacter::LookRightRate);
 	PlayerInputComponent->BindAxis(TEXT("LookRight"), this, &APawn::AddControllerYawInput);
 	PlayerInputComponent->BindAction(TEXT("Jump"), IE_Pressed, this, &ACharacter::Jump);
 }
-void AShooterCharacter::MoveForward(float MovementInput)
+void AShooterCharacter::MoveForward(float AxisInput)
 {
-	AddMovementInput(GetActorForwardVector() * MovementInput);
+	AddMovementInput(GetActorForwardVector() * AxisInput);
 }
-void AShooterCharacter::MoveRight(float MovementInput)
+void AShooterCharacter::MoveRight(float AxisInput)
 {
-	AddMovementInput(GetActorRightVector()* MovementInput);
+	AddMovementInput(GetActorRightVector()* AxisInput);
+}
+void AShooterCharacter::LookUpRate(float AxisInput)
+{
+	AddControllerPitchInput(AxisInput *RotationRate * GetWorld()->GetDeltaSeconds());
+}
+void AShooterCharacter::LookRightRate(float AxisInput)
+{
+	AddControllerYawInput(AxisInput * RotationRate * GetWorld()->GetDeltaSeconds());
 }
 //void AShooterCharacter::ShooterJump()
 //{
