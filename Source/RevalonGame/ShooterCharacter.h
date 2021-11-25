@@ -18,12 +18,16 @@ public:
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
-
+	UPROPERTY(EditAnywhere)
+	float JumpStrength = 10.f;
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
-
+private :
+	void MoveForward(float MovementInput);
+	void MoveRight(float MovementInput);
+	//void ShooterJump();
 };
