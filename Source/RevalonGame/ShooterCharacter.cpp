@@ -22,6 +22,15 @@ void AShooterCharacter::BeginPlay()
 	GunPtr->SetActorRelativeLocation(FVector(1.391184f, -20.235332f, -6.005321f));
 }
 
+bool AShooterCharacter::hasDied() const
+{
+	if (CurrentHealth > 0.f)
+	{
+		return false;
+	}
+	return true;
+}
+
 // Called every frame
 void AShooterCharacter::Tick(float DeltaTime)
 {

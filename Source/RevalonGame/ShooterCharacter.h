@@ -22,6 +22,8 @@ protected:
 		float MaxHealth = 100.f;
 
 public:	
+	UFUNCTION(BlueprintPure)
+		bool hasDied() const;
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
