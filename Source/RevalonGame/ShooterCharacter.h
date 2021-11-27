@@ -29,7 +29,11 @@ private :
 	void MoveRight(float AxisInput);
 	UPROPERTY(EditAnywhere)
 		float RotationRate = 10.f;
+	class AGun* GunPtr = nullptr;
+	UPROPERTY(EditDefaultsOnly)
+		TSubclassOf<AGun> GunClass;
 	void LookUpRate(float AxisInput);
 	void LookRightRate(float AxisInput);
+	void Shoot();
 	//void ShooterJump();
 };
