@@ -18,12 +18,16 @@ public:
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+	UPROPERTY(EditDefaultsOnly)
+		float MaxHealth = 100.f;
+
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+	virtual float TakeDamage(float DamageAmount, struct FDamageEvent const& DamageEvent, class AController* EventInstigator, AActor* DamageCauser) override;
 private :
 	void MoveForward(float AxisInput);
 	void MoveRight(float AxisInput);
@@ -35,5 +39,7 @@ private :
 	void LookUpRate(float AxisInput);
 	void LookRightRate(float AxisInput);
 	void Shoot();
+	UPROPERTY(VisibleAnywhere)
+		float CurrentHealth = 100.f;
 	//void ShooterJump();
 };

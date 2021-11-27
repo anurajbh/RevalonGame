@@ -18,6 +18,8 @@ public:
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+	UPROPERTY(EditAnywhere)
+		float GunDamage = 10.f;
 
 public:	
 	// Called every frame
@@ -30,6 +32,8 @@ private:
 	USkeletalMeshComponent* SkeletalMeshComponent;
 	UPROPERTY(EditAnywhere)
 		class UParticleSystem* MuzzleFlashEffect;
+	UPROPERTY(EditAnywhere)
+		class UParticleSystem* ShotImpactEffect;
 	APawn* OwnerPawn = nullptr;
 	UPROPERTY(EditAnywhere)
 		float MaxRange = 1000.f;

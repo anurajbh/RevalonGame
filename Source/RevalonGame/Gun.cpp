@@ -6,6 +6,7 @@
 #include "Kismet/GameplayStatics.h"
 #include "Particles/ParticleSystem.h"
 #include "DrawDebugHelpers.h"
+#include "ShooterCharacter.h"
 #define OUT
 // Sets default values
 AGun::AGun()
@@ -51,7 +52,14 @@ void AGun::PullTrigger()
 	FHitResult RaycastHit;
 	if (GetWorld()->LineTraceSingleByChannel(OUT RaycastHit, ViewPointLoc, End, ECC_GameTraceChannel1))
 	{
-		DrawDebugPoint(GetWorld(), RaycastHit.Location, 20.f, FColor::Red, true);
+		FVector ShotDirection = -ViewPointRot.Vector();
+		UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), ShotImpactEffect, RaycastHit.Location, ShotDirection.Rotation());
+		AActor* ShotActor = Cast<AShooterCharacter>(RaycastHit.GetActor());
+		if (ShotActor)
+		{
+			FPointDamageEvent GunDamageEvent(GunDamage, RaycastHit, ShotDirection, nullptr);
+			ShotActor->TakeDamage(GunDamage, GunDamageEvent, OwnerController, this);
+		}
 	}
 
 }
