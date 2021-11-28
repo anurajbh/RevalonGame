@@ -15,4 +15,13 @@ class REVALONGAME_API AShooterAIController : public AAIController
 	GENERATED_BODY()
 protected:
 		virtual void BeginPlay() override;
+		void HandleEnemyMovement();
+public:
+	virtual void Tick(float DeltaTime) override;
+private:
+	APawn* PlayerPawn;
+	//UPROPERTY(EditAnywhere)
+	//	float AcceptanceRadius = 200.f;
+	UPROPERTY(EditAnywhere)
+		class UBehaviorTree* EnemyBehaviourTree;
 };
