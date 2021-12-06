@@ -24,6 +24,8 @@ protected:
 public:	
 	UFUNCTION(BlueprintPure)
 		bool hasDied() const;
+	UFUNCTION(BlueprintPure)
+		float GetHealth() const;
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 

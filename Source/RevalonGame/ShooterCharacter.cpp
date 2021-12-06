@@ -17,6 +17,7 @@ AShooterCharacter::AShooterCharacter()
 void AShooterCharacter::BeginPlay()
 {
 	Super::BeginPlay();
+	CurrentHealth = MaxHealth;
 	GunPtr = GetWorld()->SpawnActor<AGun>(GunClass);
 	GetMesh()->HideBoneByName(TEXT("weapon_r"), PBO_None);
 	GunPtr->AttachToComponent(GetMesh(), FAttachmentTransformRules::KeepRelativeTransform, TEXT("WeaponSocket"));
@@ -31,6 +32,11 @@ bool AShooterCharacter::hasDied() const
 		return false;
 	}
 	return true;
+}
+
+float AShooterCharacter::GetHealth() const
+{
+	return CurrentHealth / MaxHealth;
 }
 
 // Called every frame
