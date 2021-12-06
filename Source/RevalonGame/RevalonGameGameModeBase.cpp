@@ -2,4 +2,7 @@
 
 
 #include "RevalonGameGameModeBase.h"
+void ARevalonGameGameModeBase::PawnKilled(APawn* ThePawn)
+{
 
+}
