@@ -34,36 +34,46 @@ void AGun::Tick(float DeltaTime)
 void AGun::PullTrigger()
 {
 	UGameplayStatics::SpawnEmitterAttached(MuzzleFlashEffect, SkeletalMeshComponent, TEXT("MuzzleFlashSocket"));
-	OwnerPawn = Cast<APawn>(GetOwner());
-	if (!OwnerPawn)
-	{
-		return;
-	}
-
-	AController* OwnerController = OwnerPawn->GetController();
-	if (!OwnerController)
-	{
-		return;
-	}
-	FVector ViewPointLoc;
-	FRotator ViewPointRot;
-	OwnerController->GetPlayerViewPoint(ViewPointLoc, ViewPointRot);
-	FVector End = ViewPointLoc + ViewPointRot.Vector()*MaxRange;
 	FHitResult RaycastHit;
-	FCollisionQueryParams Params;
-	Params.AddIgnoredActor(this);
-	Params.AddIgnoredActor(GetOwner());
-	if (GetWorld()->LineTraceSingleByChannel(OUT RaycastHit, ViewPointLoc, End, ECC_GameTraceChannel1, Params))
+	FVector ShotDirection;
+	if (GunTrace(OUT RaycastHit, OUT ShotDirection))
 	{
-		FVector ShotDirection = -ViewPointRot.Vector();
 		UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), ShotImpactEffect, RaycastHit.Location, ShotDirection.Rotation());
 		AActor* ShotActor = Cast<AShooterCharacter>(RaycastHit.GetActor());
 		if (ShotActor)
 		{
 			FPointDamageEvent GunDamageEvent(GunDamage, RaycastHit, ShotDirection, nullptr);
-			ShotActor->TakeDamage(GunDamage, GunDamageEvent, OwnerController, this);
+			ShotActor->TakeDamage(GunDamage, GunDamageEvent, GetOwnerController(), this);
 		}
 	}
 
+}
+
+bool AGun::GunTrace(FHitResult& RaycastHit, FVector& ShotDirection)
+{
+	FVector ViewPointLoc;
+	FRotator ViewPointRot;
+	AController* OwnerController = GetOwnerController();
+	if (!OwnerController)
+	{
+		return false;
+	}
+	OwnerController->GetPlayerViewPoint(ViewPointLoc, ViewPointRot);
+	ShotDirection = -ViewPointRot.Vector();
+	FVector End = ViewPointLoc + ViewPointRot.Vector() * MaxRange;
+	FCollisionQueryParams Params;
+	Params.AddIgnoredActor(this);
+	Params.AddIgnoredActor(GetOwner());
+	return GetWorld()->LineTraceSingleByChannel(OUT RaycastHit, ViewPointLoc, End, ECC_GameTraceChannel1, Params);
+}
+
+AController* AGun::GetOwnerController() const
+{
+	APawn* OwnerPawn = Cast<APawn>(GetOwner());
+	if (!OwnerPawn)
+	{
+		return nullptr;
+	}
+	return OwnerPawn->GetController();
 }
 

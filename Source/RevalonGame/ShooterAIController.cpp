@@ -4,6 +4,7 @@
 #include "ShooterAIController.h"
 #include "BehaviorTree/BehaviorTree.h"
 #include "BehaviorTree/BlackboardComponent.h"
+#include "ShooterCharacter.h"
 void AShooterAIController::BeginPlay()
 {
 	Super::BeginPlay();
@@ -12,4 +13,13 @@ void AShooterAIController::BeginPlay()
 		RunBehaviorTree(EnemyBehaviourTree);
 	}
 	GetBlackboardComponent()->SetValueAsVector(TEXT("StartLocation"), GetPawn()->GetActorLocation());
+}
+bool AShooterAIController::isDead() const
+{
+	AShooterCharacter* ControlledChar = Cast<AShooterCharacter>(GetPawn());
+	if (ControlledChar)
+	{
+		return ControlledChar->hasDied();
+	}
+	return true;
 }

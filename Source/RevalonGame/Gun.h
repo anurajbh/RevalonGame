@@ -34,7 +34,8 @@ private:
 		class UParticleSystem* MuzzleFlashEffect;
 	UPROPERTY(EditAnywhere)
 		class UParticleSystem* ShotImpactEffect;
-	APawn* OwnerPawn = nullptr;
 	UPROPERTY(EditAnywhere)
 		float MaxRange = 1000.f;
+	bool GunTrace(FHitResult& RaycastHit, FVector& ShotDirection);
+	AController* GetOwnerController() const;
 };

@@ -15,4 +15,6 @@ class REVALONGAME_API AKillEmAllGameMode : public ARevalonGameGameModeBase
 	GENERATED_BODY()
 public:
     virtual void PawnKilled(APawn* ThePawn) override;
+private:
+    void EndGame(bool bIsPlayerWinner);
 };

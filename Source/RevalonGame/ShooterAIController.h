@@ -20,4 +20,6 @@ private:
 	//	float AcceptanceRadius = 200.f;
 	UPROPERTY(EditAnywhere)
 		class UBehaviorTree* EnemyBehaviourTree;
+public:
+	bool isDead() const;
 };
